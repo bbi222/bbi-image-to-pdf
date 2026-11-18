@@ -17,7 +17,7 @@
 - 용지 A4 / Letter / 이미지 크기에 맞춤, 방향·여백 설정
 - 한 페이지에 1·2·4·6·9장 격자 배치, 칸 간격 설정
 - 세로·가로로 긴 이미지를 여러 페이지로 나누기
-- 눈금자(mm·cm·inch·pt), 안내선, 스냅(자석 정렬), 정렬 버튼
+- 눈금자(mm·pt·px), 안내선, 스냅(자석 정렬), 정렬 버튼
 - 되돌리기/다시 실행, 확대·축소, 화면 이동
 - 한국어 / English 전환
 
@@ -64,7 +64,7 @@ Images never leave your device; everything runs locally in your browser.
 - Paper: A4 / Letter / fit to image; orientation and margins
 - Grid layout of 1 / 2 / 4 / 6 / 9 images per page, adjustable gap
 - Split a very tall or wide image across several pages
-- Rulers (mm / cm / in / pt), guides, snapping, align buttons
+- Rulers (mm / pt / px), guides, snapping, align buttons
 - Undo / redo, zoom, pan
 - Korean / English UI
 

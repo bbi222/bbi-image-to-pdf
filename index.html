@@ -1453,14 +1453,18 @@ Ctrl+휠은 확대·축소, 스페이스를 누른 채 끌면 화면을 옮겨�
   host.addEventListener('pointerdown', (e) => {
     if (!spaceDown || e.button !== 0) return;
     e.preventDefault(); e.stopPropagation(); pan = { x: e.clientX, y: e.clientY, l: host.scrollLeft, t: host.scrollTop };
+    try { host.setPointerCapture(e.pointerId); } catch (_) {}
+    document.body.style.userSelect = 'none'; host.style.cursor = 'grabbing';
   }, true);
   window.addEventListener('pointermove', (e) => { if (pan) { host.scrollLeft = pan.l - (e.clientX - pan.x); host.scrollTop = pan.t - (e.clientY - pan.y); } });
-  window.addEventListener('pointerup', () => { pan = null; });
+  const endPan = () => { if (!pan) return; pan = null; document.body.style.userSelect = ''; host.style.cursor = spaceDown ? 'grab' : ''; };
+  window.addEventListener('pointerup', endPan); window.addEventListener('pointercancel', endPan);
   function setSpace(on) { spaceDown = on; host.style.cursor = on ? 'grab' : ''; }
   window.addEventListener('keydown', (e) => {
     if (e.code !== 'Space' || e.repeat) return;
     const tag = (document.activeElement && document.activeElement.tagName) || '';
-    if (/INPUT|SELECT|TEXTAREA|BUTTON/.test(tag)) return;
+    if (/INPUT|SELECT|TEXTAREA/.test(tag)) return;
+    if (tag === 'BUTTON') document.activeElement.blur();
     e.preventDefault(); setSpace(true);
   });
   window.addEventListener('keyup', (e) => { if (e.code === 'Space') setSpace(false); });
