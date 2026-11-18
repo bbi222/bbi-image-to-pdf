@@ -625,7 +625,7 @@ Ctrl+휠은 확대·축소, 스페이스를 누른 채 끌면 화면을 옮겨�
       g7: '한 페이지에 여러 장', per1: '1장', per2: '2장', per4: '4장', per6: '6장', per9: '9장', gap_h: '칸 사이 간격', grid_page: '격자로 정리', grid_page_t: '지금 보는 페이지의 이미지들을 칸에 맞춰 정리해요', repack: '전체 다시 묶기',
       multi_note: '"2장" 이상을 고르면 이미지를 추가할 때 그만큼씩 한 쪽에 격자로 놓여요. "이 페이지 격자로 정리"는 지금 보는 쪽의 이미지들을 칸에 맞춰 정리하고, "전체 다시 묶기"는 모든 이미지를 고른 장수씩 새로 묶어요.',
       multi_note_off: '"이미지 크기에 맞춤" 용지에서는 한 페이지에 여러 장을 넣을 수 없어요.', grid_need2: '격자로 정리하려면 이 페이지에 이미지가 2장 이상 있어야 해요.',
-      repack_q: 'PDF의 모든 이미지를 {0}장씩 다시 묶을까요?', repack_note: '직접 옮긴 위치와 안내선은 사라지고, 쪽 순서대로 새로 놓여요. (Ctrl+Z로 되돌릴 수 있어요)', do_repack: '다시 묶기',
+      repack_q: 'PDF의 모든 이미지를 {0}장씩 다시 묶을까요?', repack_note: '직접 옮긴 위치와 안내선은 사라지고, 쪽 순서대로 새로 놓여요. (Ctrl+Z로 되돌릴 수 있어요)', do_repack: '다시 묶기', per_note: '앞으로 추가하는 이미지부터 한 페이지에 {0}장씩 들어가요. 이미 올린 이미지는 [전체 다시 묶기]를 눌러야 바뀌어요.', gap_note: '칸 간격은 [격자로 정리]나 [전체 다시 묶기]를 누를 때 적용돼요.',
       snap: '스냅', snap_title: '이미지가 페이지 가장자리·여백·가운데·안내선·다른 이미지에 달라붙어요 (Alt를 누르면 잠깐 꺼져요)',
       guides: '안내선', guides_title: '안내선 보이기/숨기기 (눈금자에서 끌어내서 만들어요)', guide_clear: '안내선 지우기', guide_clear_title: '이 페이지의 안내선을 모두 지워요', corner_title: '눈금자 단위 바꾸기 (mm → pt → px)',
       tips_h: '사용 팁',
@@ -687,7 +687,7 @@ Ctrl+휠은 확대·축소, 스페이스를 누른 채 끌면 화면을 옮겨�
       g7: 'Several images per page', per1: '1', per2: '2', per4: '4', per6: '6', per9: '9', gap_h: 'Gap between cells', grid_page: 'Tidy to grid', grid_page_t: 'Snap the images on the current page into grid cells', repack: 'Re-pack all',
       multi_note: 'Pick 2 or more and added images are placed that many per page in a grid. "Tidy this page" snaps the images on the current page into cells; "Re-pack all" regroups every image with the chosen count.',
       multi_note_off: 'Several images per page is not available with "Fit to image" paper.', grid_need2: 'This page needs at least 2 images to tidy into a grid.',
-      repack_q: 'Re-pack all images, {0} per page?', repack_note: 'Positions you moved by hand and guides will be reset. Pages are rebuilt in order. (Undo with Ctrl+Z)', do_repack: 'Re-pack',
+      repack_q: 'Re-pack all images, {0} per page?', repack_note: 'Positions you moved by hand and guides will be reset. Pages are rebuilt in order. (Undo with Ctrl+Z)', do_repack: 'Re-pack', per_note: 'New images will go {0} per page. Press [Re-pack all] to change the images already added.', gap_note: 'The gap is applied when you press [Tidy to grid] or [Re-pack all].',
       snap: 'Snap', snap_title: 'Images snap to page edges, margins, center, guides and other images (hold Alt to turn it off briefly)',
       guides: 'Guides', guides_title: 'Show/hide guides (drag from a ruler to make one)', guide_clear: 'Clear guides', guide_clear_title: 'Remove every guide on this page', corner_title: 'Change ruler unit (mm → pt → px)',
       tips_h: 'Tips',
@@ -1726,8 +1726,8 @@ Ctrl+휠은 확대·축소, 스페이스를 누른 채 끌면 화면을 옮겨�
     if (!(await confirmDlg(t('repack_q', S.perPage), t('repack_note'), t('do_repack')))) return;
     H(); pages = buildPages(all, S.perPage); cur = 0; selId = null; renderMain();
   });
-  bindTogs('perTogs', (v) => { S.perPage = parseInt(v, 10); }, true);
-  bindTogs('gapTogs', (v) => { S.gap = parseInt(v, 10); }, true);
+  bindTogs('perTogs', (v) => { S.perPage = parseInt(v, 10); if (pages.length) toast(t('per_note', S.perPage)); }, true);
+  bindTogs('gapTogs', (v) => { S.gap = parseInt(v, 10); if (pages.length) toast(t('gap_note')); }, true);
 
   /* ============ 이벤트 ============ */
   function onLangChange() {
