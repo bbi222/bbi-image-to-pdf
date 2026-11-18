@@ -1461,11 +1461,13 @@ Ctrl+휠은 확대·축소, 스페이스를 누른 채 끌면 화면을 옮겨�
   window.addEventListener('pointerup', endPan); window.addEventListener('pointercancel', endPan);
   function setSpace(on) { spaceDown = on; host.style.cursor = on ? 'grab' : ''; }
   window.addEventListener('keydown', (e) => {
-    if (e.code !== 'Space' || e.repeat) return;
+    if (e.code !== 'Space') return;
     const tag = (document.activeElement && document.activeElement.tagName) || '';
     if (/INPUT|SELECT|TEXTAREA/.test(tag)) return;
+    e.preventDefault();                       // 키를 누르고 있어도(반복 입력) 기본 스크롤이 일어나지 않게
+    if (e.repeat) return;
     if (tag === 'BUTTON') document.activeElement.blur();
-    e.preventDefault(); setSpace(true);
+    setSpace(true);
   });
   window.addEventListener('keyup', (e) => { if (e.code === 'Space') setSpace(false); });
   window.addEventListener('blur', () => setSpace(false));
